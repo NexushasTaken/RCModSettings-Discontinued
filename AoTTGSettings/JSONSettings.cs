@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
-namespace CSharpNexus
+namespace AoTTGSettings
 {
+
     //Ability.json
     public class Ability
     {
@@ -751,10 +752,10 @@ namespace CSharpNexus
         public bool TitanSizeEnabled { get; set; }
 
         [JsonProperty("TitanSizeMin")]
-        public int TitanSizeMin { get; set; }
+        public double TitanSizeMin { get; set; }
 
         [JsonProperty("TitanSizeMax")]
-        public int TitanSizeMax { get; set; }
+        public double TitanSizeMax { get; set; }
 
         [JsonProperty("TitanHealthMode")]
         public int TitanHealthMode { get; set; }
@@ -864,7 +865,6 @@ namespace CSharpNexus
     }
 
     //UI.json
-    // Root myDeserializedClass = JsonConvert.DeserializeObject<Root>(myJsonResponse);
     public class UI
     {
         [JsonProperty("Theme")]
