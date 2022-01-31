@@ -23,6 +23,14 @@ namespace AoTTGSettings
         public MainWindow()
         {
             InitializeComponent();
+            Test.Items.Add("A");
+            Test.Items.Add("B");
+            Test.Items.Add("C");
+        }
+
+        private void Quit_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
         }
     }
 }
