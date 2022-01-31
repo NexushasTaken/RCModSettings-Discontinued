@@ -65,53 +65,129 @@ namespace AoTTGSettings
                             Lang_ComboBox.SelectedIndex = Lang_ComboBox.Items.IndexOf(Settings.General.Language);
                         }
                         {//Volume
+                            Volume_Slider.Value = Settings.General.Volume;
                             Console.WriteLine(Settings.General.Volume);
                         }
                         {//Mouse Speed
-                            Console.WriteLine(Settings.General.MouseSpeed);
+                            MouseSpeed_Slider.Value =  Settings.General.MouseSpeed;
                         }
                         {//Camera Distance
-                            Console.WriteLine(Settings.General.CameraDistance);
+                            CameraDistance_Slider.Value = Settings.General.CameraDistance;
                         }
                         {//Invert Mouse
-                            Console.WriteLine(Settings.General.InvertMouse);
+                            InvertMouse_CheckBox.IsChecked = Settings.General.InvertMouse;
                         }
                         {//Camera Tilt
-                            Console.WriteLine(Settings.General.CameraTilt);
+                            CameraTilt_CheckBox.IsChecked = Settings.General.CameraTilt;
                         }
                         {//Minimap on
-                            Console.WriteLine(Settings.General.MinimapEnabled);
+                            MinimapEnabled_CheckBox.IsChecked = Settings.General.MinimapEnabled;
                         }
                         {//Snapshots on
-                            Console.WriteLine(Settings.General.SnapshotsEnabled);
+                            SnapshotsEnabled_CheckBox.IsChecked = Settings.General.SnapshotsEnabled;
                         }
                         {//Snapshots in-game
-                            Console.WriteLine(Settings.General.SnapshotsShowInGame);
+                            SnapshotsShowInGame_CheckBox.IsChecked = Settings.General.SnapshotsShowInGame;
                         }
                         {//Snapshots min dmg
-                            Console.WriteLine(Settings.General.SnapshotsMinimumDamage);
+                            SnapshotsMinDmg_TextBox.Text = Settings.General.SnapshotsMinimumDamage.ToString();
                         }
                         break;
                     }
                 case Menu.Graphics:
-                    break;
+                    {
+                        break;
+                    }
                 case Menu.UI:
-                    break;
+                    {
+                        break;
+                    }
                 case Menu.Rebinds:
-                    break;
+                    {
+                        break;
+                    }
                 case Menu.Skins:
-                    break;
-                case Menu.CustomMap:
-                    break;
+                    {
+                        break;
+                    }
+                case Menu.CustomMap: //Nothing
+                    {
+                        break;
+                    }
                 case Menu.GameSettings:
-                    break;
+                    {
+                        break;
+                    }
                 case Menu.Ability:
-                    break;
+                    {
+                        break;
+                    }
                 default:
-                    break;
+                    {
+                        break;
+                    }
             }
         }
 
+        private void Save()
+        {
+            switch (CurrentMenu)
+            {
+                case Menu.General:
+                    {
+                        double d = 0.00000000000000001;
+                        Settings.General.Language = Lang_ComboBox.SelectedItem.ToString();
+                        Settings.General.Volume = Volume_Slider.Value * d;
+                        Settings.General.MouseSpeed = MouseSpeed_Slider.Value * d;
+                        Settings.General.CameraDistance = CameraDistance_Slider.Value * d;
+                        Settings.General.InvertMouse = InvertMouse_CheckBox.IsChecked.Value;
+                        Settings.General.CameraTilt = CameraTilt_CheckBox.IsChecked.Value;
+                        Settings.General.MinimapEnabled = MinimapEnabled_CheckBox.IsChecked.Value;
+                        Settings.General.SnapshotsEnabled = SnapshotsEnabled_CheckBox.IsChecked.Value;
+                        Settings.General.SnapshotsShowInGame = SnapshotsShowInGame_CheckBox.IsChecked.Value;
+                        Settings.General.SnapshotsMinimumDamage = Convert.ToInt32(SnapshotsMinDmg_TextBox.Text);
+                        Settings.SaveGeneral();
+                        break;
+                    }
+                case Menu.Graphics:
+                    {
+                        Settings.SaveGraphics();
+                        break;
+                    }
+                case Menu.UI:
+                    {
+                        Settings.SaveUI();
+                        break;
+                    }
+                case Menu.Rebinds: //Nothing
+                    {
+                        break;
+                    }
+                case Menu.Skins:
+                    {
+                        Settings.SaveCustomSkins();
+                        break;
+                    }
+                case Menu.CustomMap: //Nothing
+                    {
+                        break;
+                    }
+                case Menu.GameSettings:
+                    {
+                        Settings.SaveLegacyGameSettings();
+                        break;
+                    }
+                case Menu.Ability:
+                    {
+                        Settings.SaveAbility();
+                        break;
+                    }
+                default:
+                    {
+                        break;
+                    }
+            }
+        }
         private bool IsAoTTGPath(GamePath path)
         {
             void Alt(bool b)
@@ -183,6 +259,27 @@ namespace AoTTGSettings
         private void Load_Click(object sender, RoutedEventArgs e)
         {
             Load();
+        }
+
+        private void Volume_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            Volume_Slider_TextBox.Text = (Volume_Slider.Value * 0.00000000000000001).ToString();
+
+        }
+
+        private void MouseSpeed_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            MouseSpd_Slider_TextBox.Text = (MouseSpeed_Slider.Value * 0.00000000000000001).ToString();
+        }
+
+        private void CameraDistance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            CameraDistance_Slider_TextBox.Text = (CameraDistance_Slider.Value * 0.00000000000000001).ToString();
+        }
+
+        private void Save_Click(object sender, RoutedEventArgs e)
+        {
+            Save();
         }
     }
     class Data

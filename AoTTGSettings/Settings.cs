@@ -33,6 +33,7 @@ namespace AoTTGSettings
             LoadUI();
             LoadWeather();
         }
+
         public void LoadGeneral()
         {
             this.General = JsonConvert.DeserializeObject<General>(File.ReadAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\General.json")));
@@ -68,6 +69,57 @@ namespace AoTTGSettings
         public void LoadWeather()
         {
             this.Weather = JsonConvert.DeserializeObject<Weather>(File.ReadAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Weather.json")));
+        }
+
+
+
+
+
+
+        public void SaveGeneral()
+        {
+            Console.WriteLine("SaveGeneral");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\General.json"), JsonConvert.SerializeObject(General, Formatting.Indented));
+        }
+        public void SaveAbility()
+        {
+            Console.WriteLine("SaveAbility");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Ability.json"), JsonConvert.SerializeObject(Ability));
+        }
+        public void SaveCustomSkins()
+        {
+            Console.WriteLine("SaveCustomSkins");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\CustomSkins.json"), JsonConvert.SerializeObject(CustomSkins, Formatting.Indented));
+        }
+        public void SaveGraphics()
+        {
+            Console.WriteLine("SaveGraphics");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Graphics.json"), JsonConvert.SerializeObject(Graphics, Formatting.Indented));
+        }
+        public void SaveInput()
+        {
+            Console.WriteLine("SaveInput");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Input.json"), JsonConvert.SerializeObject(Input, Formatting.Indented));
+        }
+        public void SaveLegacyGameSettings()
+        {
+            Console.WriteLine("SaveLegacyGameSettings");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\LegacyGameSettings.json"), JsonConvert.SerializeObject(LegacyGameSettings, Formatting.Indented));
+        }
+        public void SaveProfile()
+        {
+            Console.WriteLine("SaveProfile");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Profile.json"), JsonConvert.SerializeObject(Profile, Formatting.Indented));
+        }
+        public void SaveUI()
+        {
+            Console.WriteLine("SaveUI");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\UI.json"), JsonConvert.SerializeObject(UI, Formatting.Indented));
+        }
+        public void SaveWeather()
+        {
+            Console.WriteLine("SaveWeather");
+            File.WriteAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Weather.json"), JsonConvert.SerializeObject(Weather, Formatting.Indented));
         }
     }
 }
