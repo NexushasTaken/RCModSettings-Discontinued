@@ -1,9 +1,6 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.IO;
 
 namespace AoTTGSettings
@@ -19,6 +16,8 @@ namespace AoTTGSettings
         public Profile Profile { get; set; }
         public UI UI { get; set; }
         public Weather Weather { get; set; }
+        public readonly List<string> Languages = new List<string>();
+        public readonly List<string> Theme = new List<string>();
         private readonly string AottgPath;
         public Settings(string aottgPath)
         {
@@ -32,8 +31,29 @@ namespace AoTTGSettings
             LoadProfile();
             LoadUI();
             LoadWeather();
+            LoadLanguages();
+            LoadThemes();
         }
 
+        public void LoadThemes()
+        {
+            Theme.Clear();
+
+            foreach (string theme in Directory.GetFiles(Path.Combine(AottgPath, "AottgRC_Data\\Resources\\UIThemes")))
+            {
+                Theme.Add(Path.GetFileNameWithoutExtension(theme));
+            }
+        }
+
+        public void LoadLanguages()
+        {
+            Languages.Clear();
+
+            foreach (string lang in Directory.GetFiles(Path.Combine(AottgPath, "AottgRC_Data\\Resources\\Languages")))
+            {
+                Languages.Add(Path.GetFileNameWithoutExtension(lang));
+            }
+        }
         public void LoadGeneral()
         {
             General = JsonConvert.DeserializeObject<General>(File.ReadAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\General.json")));

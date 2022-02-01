@@ -374,7 +374,7 @@ namespace AoTTGSettings
         public bool SnapshotsShowInGame { get; set; }
 
         [JsonProperty("SnapshotsMinimumDamage")]
-        public int SnapshotsMinimumDamage { get; set; }
+        public long SnapshotsMinimumDamage { get; set; }
 
         [JsonProperty("MinimapEnabled")]
         public bool MinimapEnabled { get; set; }
@@ -874,7 +874,7 @@ namespace AoTTGSettings
         public bool GameFeed { get; set; }
 
         [JsonProperty("UIMasterScale")]
-        public int UIMasterScale { get; set; }
+        public float UIMasterScale { get; set; }
 
         [JsonProperty("CrosshairScale")]
         public float CrosshairScale { get; set; }
