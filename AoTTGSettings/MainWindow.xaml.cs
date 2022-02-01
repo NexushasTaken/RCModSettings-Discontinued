@@ -12,10 +12,12 @@ namespace AoTTGSettings
     public partial class MainWindow : Window
     {
         private delegate void Alternate(bool b);
-        private delegate String GamePath();
+        private delegate string GamePath();
         private readonly Data Data;
-        private Settings Settings;
+        private readonly Settings Settings;
         private Menu CurrentMenu;
+        private readonly double DecA = 0.01;
+        private readonly double DecB = 100.0;
         public MainWindow()
         {
             InitializeComponent();
@@ -32,10 +34,74 @@ namespace AoTTGSettings
                 File.WriteAllText("Data.json", JsonConvert.SerializeObject(Data, Formatting.Indented));
             }
             Settings = new Settings(Data.AoTTG_Path);
-            IsAoTTGPath(() => { return Data.AoTTG_Path; });
-            this.CurrentMenu = Menu.General;
+            _ = IsAoTTGPath(() => { return Data.AoTTG_Path; });
+            CurrentMenu = Menu.General;
         }
-        private enum Menu 
+
+        private bool IsAoTTGPath(GamePath path)
+        {
+            void Alt(bool b)
+            {
+                if (b)
+                {
+                    Menu_Settings.Visibility = Visibility.Visible;
+                    Start_Confirm.Visibility = Visibility.Hidden;
+                    Start_Exit.Visibility = Visibility.Hidden;
+                    Start_label.Visibility = Visibility.Hidden;
+                    Start_TextBox.Visibility = Visibility.Hidden;
+                    Load();
+                }
+                else
+                {
+                    Menu_Settings.Visibility = Visibility.Hidden;
+                    Start_Confirm.Visibility = Visibility.Visible;
+                    Start_Exit.Visibility = Visibility.Visible;
+                    Start_label.Visibility = Visibility.Visible;
+                    Start_TextBox.Visibility = Visibility.Visible;
+                }
+            }
+            bool exe = File.Exists(Path.Combine(path(), "AottgRC.exe"));
+            bool gen = File.Exists(Path.Combine(path(), "AottgRC_Data\\UserData\\Settings\\General.json"));
+            if (exe && gen)
+            {
+                Alt(true);
+                File.WriteAllText("Data.json", JsonConvert.SerializeObject(Data, Formatting.Indented));
+                return true;
+            }
+            else
+            {
+                Alt(false);
+                return false;
+            }
+        }
+        private void Quit_Btn_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+        private void Start_Confirm_Click(object sender, RoutedEventArgs e)
+        {
+            if (!IsAoTTGPath(() => { return Data.AoTTG_Path = Start_TextBox.Text; }))
+            {
+                Start_TextBox.Text = "Invalid Input!";
+            }
+        }
+        private void Start_TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            Start_TextBox.Text = "";
+        }
+        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
+        {
+            if (e.LeftButton == MouseButtonState.Pressed)
+            {
+                DragMove();
+            }
+        }
+        private void Minimize_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.MainWindow.WindowState = WindowState.Minimized;
+        }
+
+        private enum Menu
         {
             General,
             Graphics,
@@ -46,52 +112,38 @@ namespace AoTTGSettings
             GameSettings,
             Ability
         }
+        private enum Control
+        {
+            Slider,
+            TextBox
+        }
 
+        private void LoadToControls(double value, System.Windows.Controls.Slider volume_Slider, System.Windows.Controls.TextBox volume_TextBox)
+        {
+            double SliderValue = value * DecB;
+            Console.WriteLine(value);
+            Console.WriteLine(value);
+            Console.WriteLine(SliderValue);
+            if (Volume_TextBox != null)
+            {
+                volume_TextBox.Text = value.ToString();
+            }
+            if (volume_Slider != null)
+            {
+                volume_Slider.Value = SliderValue;
+            }
+        }
+
+        //Load and Save Functions
         private void Load()
         {
             switch (CurrentMenu)
             {
                 case Menu.General:
                     {
-                        Settings.LoadGeneral();
-                        {//Language
-                            Lang_ComboBox.Items.Clear();
-                            string langs = Path.Combine(Data.AoTTG_Path, "AottgRC_Data\\Resources\\Languages");
-                            foreach (string LangFiles in Directory.GetFiles(langs))
-                            {
-                                Lang_ComboBox.Items.Add(Path.GetFileNameWithoutExtension(LangFiles));
-                                Console.WriteLine(LangFiles);
-                            }
-                            Lang_ComboBox.SelectedIndex = Lang_ComboBox.Items.IndexOf(Settings.General.Language);
-                        }
-                        {//Volume
-                            Volume_Slider.Value = Settings.General.Volume;
-                            Console.WriteLine(Settings.General.Volume);
-                        }
-                        {//Mouse Speed
-                            MouseSpeed_Slider.Value =  Settings.General.MouseSpeed;
-                        }
-                        {//Camera Distance
-                            CameraDistance_Slider.Value = Settings.General.CameraDistance;
-                        }
-                        {//Invert Mouse
-                            InvertMouse_CheckBox.IsChecked = Settings.General.InvertMouse;
-                        }
-                        {//Camera Tilt
-                            CameraTilt_CheckBox.IsChecked = Settings.General.CameraTilt;
-                        }
-                        {//Minimap on
-                            MinimapEnabled_CheckBox.IsChecked = Settings.General.MinimapEnabled;
-                        }
-                        {//Snapshots on
-                            SnapshotsEnabled_CheckBox.IsChecked = Settings.General.SnapshotsEnabled;
-                        }
-                        {//Snapshots in-game
-                            SnapshotsShowInGame_CheckBox.IsChecked = Settings.General.SnapshotsShowInGame;
-                        }
-                        {//Snapshots min dmg
-                            SnapshotsMinDmg_TextBox.Text = Settings.General.SnapshotsMinimumDamage.ToString();
-                        }
+                        LoadToControls(Settings.General.Volume, Volume_Slider, Volume_TextBox);
+                        LoadToControls(Settings.General.MouseSpeed, MouseSpeed_Slider, MouseSpeed_TextBox);
+                        LoadToControls(Settings.General.CameraDistance, CameraDistance_Slider, CameraDistance_TextBox);
                         break;
                     }
                 case Menu.Graphics:
@@ -128,24 +180,12 @@ namespace AoTTGSettings
                     }
             }
         }
-
         private void Save()
         {
             switch (CurrentMenu)
             {
                 case Menu.General:
                     {
-                        double d = 0.00000000000000001;
-                        Settings.General.Language = Lang_ComboBox.SelectedItem.ToString();
-                        Settings.General.Volume = Volume_Slider.Value * d;
-                        Settings.General.MouseSpeed = MouseSpeed_Slider.Value * d;
-                        Settings.General.CameraDistance = CameraDistance_Slider.Value * d;
-                        Settings.General.InvertMouse = InvertMouse_CheckBox.IsChecked.Value;
-                        Settings.General.CameraTilt = CameraTilt_CheckBox.IsChecked.Value;
-                        Settings.General.MinimapEnabled = MinimapEnabled_CheckBox.IsChecked.Value;
-                        Settings.General.SnapshotsEnabled = SnapshotsEnabled_CheckBox.IsChecked.Value;
-                        Settings.General.SnapshotsShowInGame = SnapshotsShowInGame_CheckBox.IsChecked.Value;
-                        Settings.General.SnapshotsMinimumDamage = Convert.ToInt32(SnapshotsMinDmg_TextBox.Text);
                         Settings.SaveGeneral();
                         break;
                     }
@@ -188,103 +228,34 @@ namespace AoTTGSettings
                     }
             }
         }
-        private bool IsAoTTGPath(GamePath path)
-        {
-            void Alt(bool b)
-            {
-                if (b)
-                {
-                    Menu_Settings.Visibility = Visibility.Visible;
-                    Start_Confirm.Visibility = Visibility.Hidden;
-                    Start_Exit.Visibility = Visibility.Hidden;
-                    Start_label.Visibility = Visibility.Hidden;
-                    Start_TextBox.Visibility = Visibility.Hidden;
-                    Load();
-                }
-                else
-                {
-                    Menu_Settings.Visibility = Visibility.Hidden;
-                    Start_Confirm.Visibility = Visibility.Visible;
-                    Start_Exit.Visibility = Visibility.Visible;
-                    Start_label.Visibility = Visibility.Visible;
-                    Start_TextBox.Visibility = Visibility.Visible;
-                }
-            }
-            bool exe = File.Exists(Path.Combine(path(), "AottgRC.exe"));
-            bool gen = File.Exists(Path.Combine(path(), "AottgRC_Data\\UserData\\Settings\\General.json"));
-            if (exe && gen)
-            {
-                Alt(true);
-                File.WriteAllText("Data.json", JsonConvert.SerializeObject(Data, Formatting.Indented));
-                return true;
-            }
-            else
-            {
-                Alt(false);
-                return false;
-            }
-        }
-
-        private void Quit_Btn_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.Shutdown();
-        }
-
-        private void Start_Confirm_Click(object sender, RoutedEventArgs e)
-        {
-            if(!IsAoTTGPath(()=> { return Data.AoTTG_Path = Start_TextBox.Text; }))
-            {
-                Start_TextBox.Text = "Invalid Input!";
-            }
-        }
-
-        private void Start_TextBox_GotFocus(object sender, RoutedEventArgs e)
-        {
-            Start_TextBox.Text = "";
-        }
-
-        private void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            if(e.LeftButton == MouseButtonState.Pressed)
-            {
-                DragMove();
-            }
-        }
-
-        private void Minimize_Click(object sender, RoutedEventArgs e)
-        {
-            Application.Current.MainWindow.WindowState = WindowState.Minimized;
-        }
 
         private void Load_Click(object sender, RoutedEventArgs e)
         {
             Load();
         }
-
-        private void Volume_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Volume_Slider_TextBox.Text = (Volume_Slider.Value * 0.00000000000000001).ToString();
-
-        }
-
-        private void MouseSpeed_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            MouseSpd_Slider_TextBox.Text = (MouseSpeed_Slider.Value * 0.00000000000000001).ToString();
-        }
-
-        private void CameraDistance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            CameraDistance_Slider_TextBox.Text = (CameraDistance_Slider.Value * 0.00000000000000001).ToString();
-        }
-
         private void Save_Click(object sender, RoutedEventArgs e)
         {
             Save();
         }
+
+        private void Volume_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            LoadToControls(Volume_Slider.Value, null, Volume_TextBox);
+        }
+
+        private void MouseSpeed_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
+
+        private void CameraDistance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+
+        }
     }
-    class Data
+    internal class Data
     {
-        public String AoTTG_Path
+        public string AoTTG_Path
         {
             get;
             set;

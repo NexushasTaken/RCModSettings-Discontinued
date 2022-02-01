@@ -353,13 +353,13 @@ namespace AoTTGSettings
         public string Language { get; set; }
 
         [JsonProperty("Volume")]
-        public double Volume { get; set; }
+        public float Volume { get; set; }
 
         [JsonProperty("MouseSpeed")]
-        public double MouseSpeed { get; set; }
+        public float MouseSpeed { get; set; }
 
         [JsonProperty("CameraDistance")]
-        public double CameraDistance { get; set; }
+        public float CameraDistance { get; set; }
 
         [JsonProperty("InvertMouse")]
         public bool InvertMouse { get; set; }
@@ -546,7 +546,7 @@ namespace AoTTGSettings
         public bool DashDoubleTap { get; set; }
 
         [JsonProperty("ReelOutScrollSmoothing")]
-        public double ReelOutScrollSmoothing { get; set; }
+        public float ReelOutScrollSmoothing { get; set; }
     }
     public class TitanInput
     {
@@ -752,10 +752,10 @@ namespace AoTTGSettings
         public bool TitanSizeEnabled { get; set; }
 
         [JsonProperty("TitanSizeMin")]
-        public double TitanSizeMin { get; set; }
+        public float TitanSizeMin { get; set; }
 
         [JsonProperty("TitanSizeMax")]
-        public double TitanSizeMax { get; set; }
+        public float TitanSizeMax { get; set; }
 
         [JsonProperty("TitanHealthMode")]
         public int TitanHealthMode { get; set; }
@@ -877,7 +877,7 @@ namespace AoTTGSettings
         public int UIMasterScale { get; set; }
 
         [JsonProperty("CrosshairScale")]
-        public double CrosshairScale { get; set; }
+        public float CrosshairScale { get; set; }
 
         [JsonProperty("ShowCrosshairArrows")]
         public bool ShowCrosshairArrows { get; set; }
@@ -914,22 +914,22 @@ namespace AoTTGSettings
         public string Skybox { get; set; }
 
         [JsonProperty("SkyboxColor")]
-        public List<double> SkyboxColor { get; set; }
+        public List<float> SkyboxColor { get; set; }
 
         [JsonProperty("Daylight")]
-        public List<double> Daylight { get; set; }
+        public List<float> Daylight { get; set; }
 
         [JsonProperty("AmbientLight")]
-        public List<double> AmbientLight { get; set; }
+        public List<float> AmbientLight { get; set; }
 
         [JsonProperty("Flashlight")]
-        public List<double> Flashlight { get; set; }
+        public List<float> Flashlight { get; set; }
 
         [JsonProperty("FogDensity")]
-        public double FogDensity { get; set; }
+        public float FogDensity { get; set; }
 
         [JsonProperty("FogColor")]
-        public List<double> FogColor { get; set; }
+        public List<float> FogColor { get; set; }
 
         [JsonProperty("Rain")]
         public int Rain { get; set; }

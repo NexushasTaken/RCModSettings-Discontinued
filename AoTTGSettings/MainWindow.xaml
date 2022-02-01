@@ -819,16 +819,16 @@
                 <Button Content="General" Height="25" Canvas.Left="5" Canvas.Top="5" Width="60" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="Graphics" Height="25" Canvas.Left="70" Canvas.Top="5" Width="60" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="UI" Height="25" Canvas.Left="135" Canvas.Top="5" Width="60" RenderTransformOrigin="0.5,0.5"/>
-                <Button Content="Rebinds" Height="25" Canvas.Left="200" Canvas.Top="5" Width="60" RenderTransformOrigin="0.5,0.5"/>
+                <Button Content="Input" Height="25" Canvas.Left="200" Canvas.Top="5" Width="60" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="Skins" Height="25" Canvas.Left="265" Canvas.Top="5" Width="60" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="Custom Map" Height="25" Canvas.Left="330" Canvas.Top="5" Width="73" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="Game Settings" Height="25" Canvas.Left="408" Canvas.Top="5" Width="81" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="Ability" Height="25" Canvas.Left="494" Canvas.Top="5" Width="81" RenderTransformOrigin="0.5,0.5"/>
-                <Button Content="Quit" Height="25" Canvas.Left="643" Canvas.Top="463" Width="42" RenderTransformOrigin="0.5,0.5" x:Name="Quit_Btn" Click="Quit_Btn_Click"/>
-                <Button Content="Minimize" Height="25" Canvas.Left="585" Canvas.Top="463" Width="53" RenderTransformOrigin="0.5,0.5" Click="Minimize_Click"/>
+                <Button Click="Quit_Btn_Click" Content="Quit" Height="25" Canvas.Left="643" Canvas.Top="463" Width="42" RenderTransformOrigin="0.5,0.5" x:Name="Quit_Btn"/>
+                <Button Click="Minimize_Click" Content="Minimize" Height="25" Canvas.Left="585" Canvas.Top="463" Width="53" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="Default" Height="25" Canvas.Left="10" Canvas.Top="461" Width="44" RenderTransformOrigin="0.5,0.5"/>
-                <Button Content="Save" Height="25" Canvas.Left="536" Canvas.Top="463" Width="44" RenderTransformOrigin="0.5,0.5" Click="Save_Click"/>
-                <Button Content="Load" Height="25" Canvas.Left="487" Canvas.Top="463" Width="44" RenderTransformOrigin="0.5,0.5" Click="Load_Click"/>
+                <Button Content="Save" Height="25" Canvas.Left="536" Canvas.Top="463" Width="44" RenderTransformOrigin="0.5,0.5"/>
+                <Button Content="Load" Height="25" Canvas.Left="487" Canvas.Top="463" Width="44" RenderTransformOrigin="0.5,0.5"/>
                 <Button Content="⟳" Height="25" Canvas.Left="662" Canvas.Top="5" Width="23" RenderTransformOrigin="0.5,0.5"/>
                 <Canvas Height="388" Width="579" Canvas.Top="70" Canvas.Left="59" x:Name="General_Canvas">
                     <Label Content="Language:" Canvas.Left="20" Canvas.Top="10" Height="23" Width="65" FontSize="14"/>
@@ -842,18 +842,18 @@
                     <Label Content="Snapshots in-game:" Canvas.Left="20" Canvas.Top="256" Height="23" Width="125" FontSize="14"/>
                     <Label Content="Snapshots minimum damage:" Canvas.Left="20" Canvas.Top="287" Height="23" Width="187" FontSize="14"/>
                     <ComboBox Canvas.Left="210" Canvas.Top="10" Width="115" Height="23" x:Name="Lang_ComboBox" Foreground="WhiteSmoke"/>
-                    <Slider Canvas.Left="210" Canvas.Top="43" Width="115" x:Name="Volume_Slider" Maximum="10000000000000000" Minimum="0"/>
-                    <TextBox Height="23" Canvas.Left="330" TextWrapping="Wrap" Canvas.Top="41" Width="120" x:Name="Volume_Slider_TextBox"/>
-                    <Slider Canvas.Left="210" Canvas.Top="74" Width="115" x:Name="MouseSpeed_Slider" Maximum="10000000000000000" Minimum="0"/>
-                    <TextBox Height="23" Canvas.Left="330" TextWrapping="Wrap" Canvas.Top="72" Width="120" x:Name="MouseSpd_Slider_TextBox"/>
-                    <Slider Canvas.Left="210" Canvas.Top="103" Width="115" x:Name="CameraDistance_Slider" Maximum="10000000000000000" Minimum="0"/>
-                    <TextBox Height="23" Canvas.Left="330" TextWrapping="Wrap" Canvas.Top="101" Width="120" x:Name="CameraDistance_Slider_TextBox"/>
+                    <TextBox Height="23" Canvas.Left="340" Canvas.Top="41" Width="125" x:Name="Volume_TextBox"/>
+                    <TextBox Height="23" Canvas.Left="340" Canvas.Top="72" Width="125" x:Name="MouseSpeed_TextBox"/>
+                    <TextBox Height="23" Canvas.Left="340" Canvas.Top="101" Width="125" x:Name="CameraDistance_TextBox"/>
+                    <Slider Canvas.Left="210" Canvas.Top="41" Width="125" x:Name="Volume_Slider" Maximum="100" ValueChanged="Volume_Slider_ValueChanged"/>
+                    <Slider Canvas.Left="210" Canvas.Top="72" Width="125" x:Name="MouseSpeed_Slider" MinHeight="0" ValueChanged="MouseSpeed_Slider_ValueChanged"/>
+                    <Slider Canvas.Left="210" Canvas.Top="101" Width="125" x:Name="CameraDistance_Slider" ValueChanged="CameraDistance_Slider_ValueChanged"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="136" Width="16" x:Name="InvertMouse_CheckBox"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="166" Width="16" x:Name="CameraTilt_CheckBox"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="198" Width="16" x:Name="MinimapEnabled_CheckBox"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="229" Width="16" x:Name="SnapshotsEnabled_CheckBox"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="260" Width="16" x:Name="SnapshotsShowInGame_CheckBox"/>
-                    <TextBox Height="23" Canvas.Left="210" TextWrapping="Wrap" Text="" Canvas.Top="287" Width="120" x:Name="SnapshotsMinDmg_TextBox"/>
+                    <TextBox Height="23" Canvas.Left="210" TextWrapping="Wrap" Text="" Canvas.Top="287" Width="125" x:Name="SnapshotsMinDmg_TextBox"/>
                 </Canvas>
             </Canvas>
         </Canvas>
