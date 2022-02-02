@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.IO;
 using Newtonsoft.Json;
@@ -18,8 +19,19 @@ namespace AoTTGSettings
         private readonly Settings Settings;
         private Menu CurrentMenu = Menu.None;
         private InputMenu CurrentInputMenu = InputMenu.None;
+        private GameSettingMenus CurrentGameSettingsMenu = GameSettingMenus.None;
+        private SkinsMenus CurrentSkinMenu = SkinsMenus.None;
         private readonly double DecA = 0.01;
         private readonly double DecB = 100.0;
+
+        private readonly TextBox[] GeneralInputsTB;
+        private readonly TextBox[] HumanInputsTB;
+        private readonly TextBox[] TitanInputsTB;
+        private readonly TextBox[] Shifter_InputsTB;
+        private readonly TextBox[] Interaction_InputsTB;
+        private readonly TextBox[] RCEditor_InputsTB;
+
+        private readonly TextBox[] HumanSkinTB;
         public MainWindow()
         {
             InitializeComponent();
@@ -37,6 +49,125 @@ namespace AoTTGSettings
             }
             Settings = new Settings(Data.AoTTG_Path);
             _ = IsAoTTGPath(() => { return Data.AoTTG_Path; });
+
+            GeneralInputsTB = new TextBox[]
+            {
+                Forward_InputA, Forward_InputB,
+                Backward_InputA, Backward_InputB,
+                Left_InputA, Left_InputB,
+                Right_InputA, Right_InputB,
+                Pause_InputA, Pause_InputB,
+                Restart_InputA, Restart_InputB,
+                Chat_InputA, Chat_InputB,
+                ToggleFullScreen_InputA, ToggleFullScreen_InputB,
+                ChangeCamera_InputA, ChangeCamera_InputB,
+                HideUI_InputA, HideUI_InputB,
+                ResetMinimap_InputA, ResetMinimap_InputB,
+                ToggleMinimap_InputA, ToggleMinimap_InputB,
+                MinimizeMinimap_InputA, MinimizeMinimap_InputB,
+                JoinGame_InputA, JoinGame_InputB,
+                SpectateLive_InputA, SpectateLive_InputB,
+                SpectateFree_InputA, SpectateFree_InputB,
+                SpectatePrevious_InputA, SpectatePrevious_InputB,
+                SpectateNext_InputA, SpectateNext_InputB
+            };
+            HumanInputsTB = new TextBox[]
+            {
+                 NormalAtk_InputA, NormalAtk_InputB,
+                 SpecialAtk_InputA, SpecialAtk_InputB,
+                 HookLeft_InputA, HookLeft_InputB,
+                 HookRight_InputA, HookRight_InputB,
+                 HookBoth_InputA, HookBoth_InputB,
+                 Dash_InputA, Dash_InputB,
+                 ReelIn_InputA, ReelIn_InputB,
+                 ReelOut_InputA, ReelOut_InputB,
+                 Dodge_InputA, Dodge_InputB,
+                 FocusTitan_InputA, FocusTitan_InputB,
+                 HumanJump_InputA, HumanJump_InputB,
+                 Reload_InputA, Reload_InputB,
+                 HorseMount_InputA, HorseMount_InputB,
+                 HorseWalk_InputA, HorseWalk_InputB,
+                 HorseJump_InputA, HorseJump_InputB,
+                 Flare1_InputA, Flare1_InputB,
+                 Flare2_InputA, Flare2_InputB,
+                 Flare3_InputA, Flare3_InputB
+            };
+            TitanInputsTB = new TextBox[]
+            {
+                PunchAtk_InputA, PunchAtk_InputB,
+                SlamAtk_InputA, SlamAtk_InputB,
+                SlapAtk_InputA, SlapAtk_InputB,
+                GrabFront_InputA, GrabFront_InputB,
+                GrabBack_InputA, GrabBack_InputB,
+                GrabNape_InputA, GrabNape_InputB,
+                Bite_InputA, Bite_InputB,
+                CoverNape_InputA, CoverNape_InputB,
+                TitanJump_InputA, TitanJump_InputB,
+                Sit_InputA, Sit_InputB,
+                Walk_InputA, Walk_InputB
+            };
+            Shifter_InputsTB = new TextBox[]
+            {
+                ShifterNormalAtk_InputA, ShifterNormalAtk_InputB,
+                ShifterSpecialAtk_InputA, ShifterSpecialAtk_InputB,
+                ShifterCoverNape_InputA, ShifterCoverNape_InputB,
+                ShifterJump_InputA, ShifterJump_InputB,
+                ShifterSit_InputA, ShifterSit_InputB,
+                ShifterWalk_InputA, ShifterWalk_InputB,
+                ShifterRoar_InputA, ShifterRoar_InputB
+            };
+            Interaction_InputsTB = new TextBox[]
+            {
+                 Interact_InputA, Interact_InputB,
+                 InteractCannonSlow_InputA, InteractCannonSlow_InputB,
+                 InteractCannonFire_InputA, InteractCannonFire_InputB,
+                 InteractEmoteMenu_InputA, InteractEmoteMenu_InputB,
+                 InteractMenuNext_InputA, InteractMenuNext_InputB,
+                 Interact1_InputA, Interact1_InputB,
+                 Interact2_InputA, Interact2_InputB,
+                 Interact3_InputA, Interact3_InputB,
+                 Interact4_InputA, Interact4_InputB,
+                 Interact5_InputA, Interact5_InputB,
+                 Interact6_InputA, Interact6_InputB,
+                 Interact7_InputA, Interact7_InputB,
+                 Interact8_InputA, Interact8_InputB
+            };
+            RCEditor_InputsTB = new TextBox[]
+            {
+                RCEditorUp_InputA, RCEditorUp_InputB,
+                RCEditorDown_InputA, RCEditorDown_InputB,
+                RCEditorSlow_InputA, RCEditorSlow_InputB,
+                RCEditorFast_InputA, RCEditorFast_InputB,
+                RCEditorRotateRight_InputA, RCEditorRotateRight_InputB,
+                RCEditorRotateLeft_InputA, RCEditorRotateLeft_InputB,
+                RCEditorRotateClockwise_InputA, RCEditorRotateClockwise_InputB,
+                RCEditorRotateCounterClockwise_InputA, RCEditorRotateCounterClockwise_InputB,
+                RCEditorRotateBack_InputA, RCEditorRotateBack_InputB,
+                RCEditorRotateForward_InputA, RCEditorRotateForward_InputB,
+                RCEditorPlace_InputA, RCEditorPlace_InputB,
+                RCEditorDelete_InputA, RCEditorDelete_InputB,
+                RCEditorCursorMode_InputA, RCEditorCursorMode_InputB
+            };
+
+            HumanSkinTB = new TextBox[]
+            {
+                HumanHairSkin,
+                HumanEyesSkin,
+                HumanGlassesSkin,
+                HumanFaceSkin,
+                HumanSkinSkin,
+                HumanCostumeSkin,
+                HumanLogoSkin,
+                HumanGearLeftSkin,
+                HumanGearRightSkin,
+                HumanGasSkin,
+                HumanHoddieSkin,
+                HumanWeaponTrailSkin,
+                HumanHorseSkin,
+                HumanThunderspearLeftSkin,
+                HumanThunderspearRightSkin
+            };
+        
         }
 
         //Main Window Functions
@@ -52,6 +183,12 @@ namespace AoTTGSettings
                     Start_label.Visibility = Visibility.Hidden;
                     Start_TextBox.Visibility = Visibility.Hidden;
                     CurrentMenu = Menu.General;
+                    CurrentInputMenu = InputMenu.General;
+                    CurrentGameSettingsMenu = GameSettingMenus.Titans;
+                    CurrentSkinMenu = SkinsMenus.Human;
+                    ShowSkinMenu(Human_Canvas);
+                    ShowGameSettingsMenu(Titan_Settings);
+                    ShowInputMenu(General_Inputs);
                     ShowMenu(General_Canvas);
                 }
                 else
@@ -117,7 +254,7 @@ namespace AoTTGSettings
             GameSettings,
             Ability
         }
-        private enum InputMenu 
+        private enum InputMenu
         {
             None,
             General,
@@ -127,48 +264,29 @@ namespace AoTTGSettings
             Interaction,
             RCEditor
         }
-
-        private enum Control
+        private enum GameSettingMenus
         {
-            Slider,
-            TextBox,
-            Both
+            None,
+            Titans,
+            Pvp,
+            Misc,
+            Weather
+        }
+        private enum SkinsMenus
+        {
+            None,
+            Human,
+            Titan,
+            Shifter,
+            Skybox,
+            Forest,
+            City,
+            CustomLevel
         }
         private enum Load_
         {
             Auto,
             Manual
-        }
-
-        //Controls Functions
-        private void LoadToControls(double value, Slider volume_Slider, TextBox volume_TextBox, Control control, Load_ load)
-        {
-            double TextBoxValue;
-            double SliderValue;
-            if (load == Load_.Manual)
-            {
-                TextBoxValue = value;
-                SliderValue = value * DecB;
-            }
-            else
-            {
-                TextBoxValue = value * DecA;
-                SliderValue = value * DecB;
-            }
-
-            if (control == Control.TextBox)
-            {
-                volume_TextBox.Text = TextBoxValue.ToString();
-            }
-            if (control == Control.Slider)
-            {
-                volume_Slider.Value = SliderValue;
-            }
-            if (control == Control.Both)
-            {
-                volume_TextBox.Text = TextBoxValue.ToString();
-                volume_Slider.Value = SliderValue;
-            }
         }
 
         //Load and Save Functions
@@ -186,9 +304,14 @@ namespace AoTTGSettings
                             _ = Languages_ComboBox.Items.Add(Lang);
                         }
                         Languages_ComboBox.SelectedIndex = Languages_ComboBox.Items.IndexOf(Settings.General.Language);
-                        LoadToControls(Settings.General.Volume, Volume_Slider, Volume_TextBox, Control.Both, Load_.Manual);
-                        LoadToControls(Settings.General.MouseSpeed, MouseSpeed_Slider, MouseSpeed_TextBox, Control.Both, Load_.Manual);
-                        LoadToControls(Settings.General.CameraDistance, CameraDistance_Slider, CameraDistance_TextBox, Control.Both, Load_.Manual);
+                        Volume_Slider.Value = Settings.General.Volume * DecB;
+                        Volume_TextBox.Text = Settings.General.Volume.ToString();
+                        MouseSpeed_Slider.Value = Settings.General.MouseSpeed * DecB;
+                        MouseSpeed_TextBox.Text = Settings.General.MouseSpeed.ToString();
+                        CameraDistance_Slider.Value = Settings.General.CameraDistance * DecB;
+                        CameraDistance_TextBox.Text = Settings.General.CameraDistance.ToString();
+
+
                         InvertMouse_CheckBox.IsChecked = Settings.General.InvertMouse;
                         CameraTilt_CheckBox.IsChecked = Settings.General.CameraTilt;
                         MinimapEnabled_CheckBox.IsChecked = Settings.General.MinimapEnabled;
@@ -256,10 +379,32 @@ namespace AoTTGSettings
                     }
                 case Menu.Input:
                     {
+                        Settings.LoadInput();
+                        Load_Inputs(HumanInputsTB, Settings.Input.Human.GetInputs());
+                        DoubleTapToDash_CheckBox.IsChecked = Settings.Input.Human.DashDoubleTap;
+                        ReelOutScroolSmoothing_Slider.Value = Settings.Input.Human.ReelOutScrollSmoothing * DecB;
+                        ReelOutScroolSmoothing_TextBox.Text = Settings.Input.Human.ReelOutScrollSmoothing.ToString();
+
+                        Load_Inputs(GeneralInputsTB, Settings.Input.General.GetInputs());
+                        Load_Inputs(TitanInputsTB, Settings.Input.Titan.GetInputs());
+                        Load_Inputs(Shifter_InputsTB, Settings.Input.Shifter.GetInputs());
+                        Load_Inputs(Interaction_InputsTB, Settings.Input.Interaction.GetInputs());
+                        Load_Inputs(RCEditor_InputsTB, Settings.Input.RCEditor.GetInputs());
                         break;
                     }
                 case Menu.Skins:
                     {
+                        Settings.LoadCustomSkins();
+                        HumanSkinSet_ComboBox.Items.Clear();
+                        foreach (string name in Settings.CustomSkins.Human.GetSkinNameSet())
+                        {
+                            HumanSkinSet_ComboBox.Items.Add(name);
+                        }
+                        HumanSkinSet_ComboBox.SelectedIndex = Settings.CustomSkins.Human.SelectedSetIndex;
+                        Load_Skins(HumanSkinTB, Settings.CustomSkins.Human.GetSkinSet());
+                        HumanSkinOn.IsChecked = Settings.CustomSkins.Human.SkinsEnabled;
+                        HumanSkinLocal.IsChecked = Settings.CustomSkins.Human.SkinsLocal;
+                        HumanShowGasSkin.IsChecked = Settings.CustomSkins.Human.GasEnabled;
                         break;
                     }
                 case Menu.CustomMap: //Nothing
@@ -287,9 +432,9 @@ namespace AoTTGSettings
                 case Menu.General:
                     {
                         Settings.General.Language = Languages_ComboBox.SelectedItem.ToString();
-                        Settings.General.Volume = (float)DoubleParse(Volume_TextBox.Text);
-                        Settings.General.MouseSpeed = (float)DoubleParse(MouseSpeed_TextBox.Text);
-                        Settings.General.CameraDistance = (float)DoubleParse(CameraDistance_TextBox.Text);
+                        Settings.General.Volume = (float)(Volume_Slider.Value * DecA);
+                        Settings.General.MouseSpeed = (float)(MouseSpeed_Slider.Value * DecA);
+                        Settings.General.CameraDistance = (float)(CameraDistance_Slider.Value * DecA);
                         Settings.General.InvertMouse = InvertMouse_CheckBox.IsChecked.Value;
                         Settings.General.CameraTilt = CameraTilt_CheckBox.IsChecked.Value;
                         Settings.General.MinimapEnabled = MinimapEnabled_CheckBox.IsChecked.Value;
@@ -347,6 +492,17 @@ namespace AoTTGSettings
                     }
                 case Menu.Input: //Nothing
                     {
+                        Save_Inputs(HumanInputsTB, Settings.Input.Human.GetInputs());
+                        Settings.Input.Human.DashDoubleTap = DoubleTapToDash_CheckBox.IsChecked.Value;
+                        Settings.Input.Human.ReelOutScrollSmoothing = (float)(ReelOutScroolSmoothing_Slider.Value * DecB);
+                        Settings.Input.Human.ReelOutScrollSmoothing = (float)Convert.ToDouble(ReelOutScroolSmoothing_TextBox.Text);
+
+                        Save_Inputs(GeneralInputsTB, Settings.Input.General.GetInputs());
+                        Save_Inputs(TitanInputsTB, Settings.Input.Titan.GetInputs());
+                        Save_Inputs(Shifter_InputsTB, Settings.Input.Shifter.GetInputs());
+                        Save_Inputs(Interaction_InputsTB, Settings.Input.Interaction.GetInputs());
+                        Save_Inputs(RCEditor_InputsTB, Settings.Input.RCEditor.GetInputs());
+                        Settings.SaveInput();
                         break;
                     }
                 case Menu.Skins:
@@ -354,8 +510,9 @@ namespace AoTTGSettings
                         Settings.SaveCustomSkins();
                         break;
                     }
-                case Menu.CustomMap: //Nothing
+                case Menu.CustomMap: //Nothing LOL
                     {
+
                         break;
                     }
                 case Menu.GameSettings:
@@ -375,6 +532,32 @@ namespace AoTTGSettings
             }
         }
 
+        private void Load_Skins(TextBox[] textBoxes, List<string> list)
+        {
+            for (int i = 0; i < textBoxes.Length; i++)
+            {
+                Console.WriteLine(list[i]);
+                textBoxes[i].Text = list[i];
+            }
+        }
+        private void Load_Inputs(TextBox[] textBoxes, List<List<string>> list)
+        {
+            int i = 0;
+            foreach (List<string> input in list)
+            {
+                textBoxes[i++].Text = input[0];
+                textBoxes[i++].Text = input[1];
+            }
+        }
+        private void Save_Inputs(TextBox[] textBoxes, List<List<string>> list)
+        {
+            int i = 0;
+            foreach (List<string> input in list)
+            {
+                input[0] = textBoxes[i++].Text;
+                input[1] = textBoxes[i++].Text;
+            }
+        }
         private void Load_Click(object sender, RoutedEventArgs e)
         {
             Load();
@@ -383,78 +566,59 @@ namespace AoTTGSettings
         {
             Save();
         }
-
-        //Utility Functions
-        private double DoubleParse(string value)
+        private void Refresh_Click(object sender, RoutedEventArgs e)
         {
-            try
-            {
-                return Double.Parse(value);
-            }
-            catch (Exception)
-            {
-                return 0;
-            }
-        }
-
-        //General Functions
-        private void Volume_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                LoadToControls(Volume_Slider.Value, null, Volume_TextBox, Control.TextBox, Load_.Auto);
-            }
-        }
-        private void Mouse_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                LoadToControls(MouseSpeed_Slider.Value, null, MouseSpeed_TextBox, Control.TextBox, Load_.Auto);
-            }
-        }
-        private void CameraDistance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            if (Mouse.LeftButton == MouseButtonState.Pressed)
-            {
-                LoadToControls(CameraDistance_Slider.Value, null, CameraDistance_TextBox, Control.TextBox, Load_.Auto);
-            }
-        }
-        private void Volume_TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                LoadToControls(DoubleParse(Volume_TextBox.Text), Volume_Slider, null, Control.Slider, Load_.Auto);
-            }
-        }
-        private void MouseSpeed_TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                LoadToControls(DoubleParse(MouseSpeed_TextBox.Text), MouseSpeed_Slider, null, Control.Slider, Load_.Auto);
-            }
-        }
-        private void CameraDistance_TextBox_KeyDown(object sender, KeyEventArgs e)
-        {
-            if (e.Key == Key.Return)
-            {
-                LoadToControls(DoubleParse(CameraDistance_TextBox.Text), CameraDistance_Slider, null, Control.Slider, Load_.Auto);
-            }
+            Load();
         }
 
         //Menu Functions
         private void ShowMenu(Canvas canvas)
         {
-            General_Canvas.Visibility = Visibility.Hidden;
-            Graphics_Canvas.Visibility = Visibility.Hidden;
-            UI_Canvas.Visibility = Visibility.Hidden;
-            Input_Canvas.Visibility = Visibility.Hidden;
-            Skins_Canvas.Visibility = Visibility.Hidden;
-            CustomMap_Canvas.Visibility = Visibility.Hidden;
-            GameSettings_Canvas.Visibility = Visibility.Hidden;
-            Ability_Canvas.Visibility = Visibility.Hidden;
+            General_Canvas.Visibility = Visibility.Collapsed;
+            Graphics_Canvas.Visibility = Visibility.Collapsed;
+            UI_Canvas.Visibility = Visibility.Collapsed;
+            Input_Canvas.Visibility = Visibility.Collapsed;
+            Skins_Canvas.Visibility = Visibility.Collapsed;
+            CustomMap_Canvas.Visibility = Visibility.Collapsed;
+            GameSettings_Canvas.Visibility = Visibility.Collapsed;
+            Ability_Canvas.Visibility = Visibility.Collapsed;
             canvas.Visibility = Visibility.Visible;
             Load();
         }
+        private void ShowInputMenu(Canvas canvas)
+        {
+            General_Inputs.Visibility = Visibility.Collapsed;
+            Human_Inputs.Visibility = Visibility.Collapsed;
+            Titan_Inputs.Visibility = Visibility.Collapsed;
+            Shifter_Inputs.Visibility = Visibility.Collapsed;
+            Interaction_Inputs.Visibility = Visibility.Collapsed;
+            RCEditor_Inputs.Visibility = Visibility.Collapsed;
+            canvas.Visibility = Visibility.Visible;
+            Load();
+        }
+        private void ShowGameSettingsMenu(Canvas canvas)
+        {
+            Titan_Settings.Visibility = Visibility.Collapsed;
+            PVP_Settings.Visibility = Visibility.Collapsed;
+            Misc_Settings.Visibility = Visibility.Collapsed;
+            Weather_Settings.Visibility = Visibility.Collapsed;
+            canvas.Visibility = Visibility.Visible;
+            Load();
+        }
+        private void ShowSkinMenu(Canvas canvas)
+        {
+            Human_Canvas.Visibility = Visibility.Collapsed;
+            Titan_Canvas.Visibility = Visibility.Collapsed;
+            Shifter_Canvas.Visibility = Visibility.Collapsed;
+            Skybox_Canvas.Visibility = Visibility.Collapsed;
+            Forest_Canvas.Visibility = Visibility.Collapsed;
+            City_Canvas.Visibility = Visibility.Collapsed;
+            CustomLevel_Canvas.Visibility = Visibility.Collapsed;
+            canvas.Visibility = Visibility.Visible;
+            Load();
+        }
+
+        //Menu Click Buttons
         private void General_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.General)
@@ -471,7 +635,6 @@ namespace AoTTGSettings
                 ShowMenu(Graphics_Canvas);
             }
         }
-
         private void UI_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.UI)
@@ -480,7 +643,6 @@ namespace AoTTGSettings
                 ShowMenu(UI_Canvas);
             }
         }
-
         private void Input_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.Input)
@@ -489,7 +651,6 @@ namespace AoTTGSettings
                 ShowMenu(Input_Canvas);
             }
         }
-
         private void Skins_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.Skins)
@@ -498,7 +659,6 @@ namespace AoTTGSettings
                 ShowMenu(Skins_Canvas);
             }
         }
-
         private void CustomMap_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.CustomMap)
@@ -507,7 +667,6 @@ namespace AoTTGSettings
                 ShowMenu(CustomMap_Canvas);
             }
         }
-
         private void GameSettings_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.GameSettings)
@@ -516,7 +675,6 @@ namespace AoTTGSettings
                 ShowMenu(GameSettings_Canvas);
             }
         }
-
         private void Ability_Click(object sender, RoutedEventArgs e)
         {
             if (CurrentMenu != Menu.Ability)
@@ -525,17 +683,148 @@ namespace AoTTGSettings
                 ShowMenu(Ability_Canvas);
             }
         }
-
-        private void Refresh_Click(object sender, RoutedEventArgs e)
+        private void GeneralInput_Click(object sender, RoutedEventArgs e)
         {
-            Load();
+            if (CurrentInputMenu != InputMenu.General)
+            {
+                CurrentInputMenu = InputMenu.General;
+                ShowInputMenu(General_Inputs);
+            }
+        }
+        private void HumanInput_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentInputMenu != InputMenu.Human)
+            {
+                CurrentInputMenu = InputMenu.Human;
+                ShowInputMenu(Human_Inputs);
+            }
+        }
+        private void TitanInput_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentInputMenu != InputMenu.Titan)
+            {
+                CurrentInputMenu = InputMenu.Titan;
+                ShowInputMenu(Titan_Inputs);
+            }
+        }
+        private void ShifterInput_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentInputMenu != InputMenu.Shifter)
+            {
+                CurrentInputMenu = InputMenu.Shifter;
+                ShowInputMenu(Shifter_Inputs);
+            }
+        }
+        private void InteractionInput_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentInputMenu != InputMenu.Interaction)
+            {
+                CurrentInputMenu = InputMenu.Interaction;
+                ShowInputMenu(Interaction_Inputs);
+            }
+        }
+        private void RCEditorInput_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentInputMenu != InputMenu.RCEditor)
+            {
+                CurrentInputMenu = InputMenu.RCEditor;
+                ShowInputMenu(RCEditor_Inputs);
+            }
+        }
+        private void TitanGameSettings_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentGameSettingsMenu != GameSettingMenus.Titans)
+            {
+                CurrentGameSettingsMenu = GameSettingMenus.Titans;
+                ShowGameSettingsMenu(Titan_Settings);
+            }
+        }
+        private void PVPGameSettings_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentGameSettingsMenu != GameSettingMenus.Pvp)
+            {
+                CurrentGameSettingsMenu = GameSettingMenus.Pvp;
+                ShowGameSettingsMenu(PVP_Settings);
+            }
+        }
+        private void MiscGameSettings_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentGameSettingsMenu != GameSettingMenus.Misc)
+            {
+                CurrentGameSettingsMenu = GameSettingMenus.Misc;
+                ShowGameSettingsMenu(Misc_Settings);
+            }
+        }
+        private void WeatherGameSettings_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentGameSettingsMenu != GameSettingMenus.Weather)
+            {
+                CurrentGameSettingsMenu = GameSettingMenus.Weather;
+                ShowGameSettingsMenu(Weather_Settings);
+            }
+        }
+        private void HumanSkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.Human)
+            {
+                CurrentSkinMenu = SkinsMenus.Human;
+                ShowSkinMenu(Human_Canvas);
+            }
+        }
+        private void TitanSkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.Titan)
+            {
+                CurrentSkinMenu = SkinsMenus.Titan;
+                ShowSkinMenu(Titan_Canvas);
+            }
+        }
+        private void ShifterSkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.Shifter)
+            {
+                CurrentSkinMenu = SkinsMenus.Shifter;
+                ShowSkinMenu(Shifter_Canvas);
+            }
+        }
+        private void SkyboxSkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.Skybox)
+            {
+                CurrentSkinMenu = SkinsMenus.Skybox;
+                ShowSkinMenu(Skybox_Canvas);
+            }
+        }
+        private void ForestSkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.Forest)
+            {
+                CurrentSkinMenu = SkinsMenus.Forest;
+                ShowSkinMenu(Forest_Canvas);
+            }
+        }
+        private void CitySkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.City)
+            {
+                CurrentSkinMenu = SkinsMenus.City;
+                ShowSkinMenu(City_Canvas);
+            }
+        }
+        private void CustomLevelSkins_Button_Click(object sender, RoutedEventArgs e)
+        {
+            if (CurrentSkinMenu != SkinsMenus.CustomLevel)
+            {
+                CurrentSkinMenu = SkinsMenus.CustomLevel;
+                ShowSkinMenu(CustomLevel_Canvas);
+            }
         }
 
+        //UI Menu Functions
         private void RenderDistance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             RenderDistance_TextBox.Text = ((int)RenderDistance_Slider.Value).ToString();
         }
-
         private void RenderDistance_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -552,7 +841,6 @@ namespace AoTTGSettings
                 }
             }
         }
-
         private void UIScale_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
@@ -560,7 +848,6 @@ namespace AoTTGSettings
                 UIScale_Textbox.Text = (UIScale_Slider.Value * DecA).ToString();
             }
         }
-
         private void UIScale_Textbox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
@@ -568,7 +855,6 @@ namespace AoTTGSettings
                 UIScale_Slider.Value = Convert.ToDouble(UIScale_Textbox.Text) * DecB;
             }
         }
-
         private void CrosshairScale_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             if (Mouse.LeftButton == MouseButtonState.Pressed)
@@ -576,12 +862,64 @@ namespace AoTTGSettings
                 CrosshairScale_TextBox.Text = (CrosshairScale_Slider.Value * DecA).ToString();
             }
         }
-
         private void CrosshairScale_TextBox_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.Key == Key.Return)
             {
                 CrosshairScale_Slider.Value = Convert.ToDouble(CrosshairScale_TextBox.Text) * DecB;
+            }
+        }
+
+        //General Menu Functions
+        private void Volume_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                Volume_TextBox.Text = (Volume_Slider.Value * DecA).ToString();
+            }
+        }
+        private void Mouse_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                MouseSpeed_TextBox.Text = (MouseSpeed_Slider.Value * DecA).ToString();
+            }
+        }
+        private void CameraDistance_Slider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (Mouse.LeftButton == MouseButtonState.Pressed)
+            {
+                CameraDistance_TextBox.Text = (CameraDistance_Slider.Value * DecA).ToString();
+            }
+        }
+        private void Volume_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                Volume_Slider.Value = Convert.ToDouble(Volume_TextBox.Text) * DecB;
+            }
+        }
+        private void MouseSpeed_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                MouseSpeed_Slider.Value = Convert.ToDouble(MouseSpeed_TextBox.Text) * DecB;
+            }
+        }
+        private void CameraDistance_TextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Return)
+            {
+                CameraDistance_Slider.Value = Convert.ToDouble(CameraDistance_TextBox.Text) * DecB;
+            }
+        }
+
+        //Custom Skins 
+        private void HumanSkinSet_ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.Handled == false)
+            {
+                Load_Skins(HumanSkinTB, Settings.CustomSkins.Human.GetSkinSetByIndex(HumanSkinSet_ComboBox.SelectedIndex));
             }
         }
     }

@@ -327,7 +327,7 @@
             <Setter Property="FocusVisualStyle" Value="{StaticResource FocusVisual}"/>
             <Setter Property="Background" Value="{StaticResource ComboBox.Static.Background}"/>
             <Setter Property="BorderBrush" Value="{StaticResource ComboBox.Static.Border}"/>
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"/>
+            <Setter Property="Foreground" Value="WhiteSmoke"/>
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
             <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
@@ -910,9 +910,9 @@
                     <TextBox Height="23" Canvas.Left="340" Canvas.Top="41" Width="125" x:Name="Volume_TextBox" KeyDown="Volume_TextBox_KeyDown"/>
                     <TextBox Height="23" Canvas.Left="340" Canvas.Top="72" Width="125" x:Name="MouseSpeed_TextBox" KeyDown="MouseSpeed_TextBox_KeyDown"/>
                     <TextBox Height="23" Canvas.Left="340" Canvas.Top="101" Width="125" x:Name="CameraDistance_TextBox" KeyDown="CameraDistance_TextBox_KeyDown"/>
-                    <Slider Canvas.Left="210" Canvas.Top="41" Width="125" x:Name="Volume_Slider" Maximum="100" ValueChanged="Volume_Slider_ValueChanged"/>
-                    <Slider Canvas.Left="210" Canvas.Top="72" Width="125" x:Name="MouseSpeed_Slider" MinHeight="0" Maximum="100" ValueChanged="Mouse_Slider_ValueChanged"/>
-                    <Slider Canvas.Left="210" Canvas.Top="101" Width="125" x:Name="CameraDistance_Slider" Maximum="100" ValueChanged="CameraDistance_Slider_ValueChanged"/>
+                    <Slider Canvas.Left="210" Canvas.Top="41" Width="125" x:Name="Volume_Slider" Minimum="0" Maximum="100" ValueChanged="Volume_Slider_ValueChanged"/>
+                    <Slider Canvas.Left="210" Canvas.Top="72" Width="125" x:Name="MouseSpeed_Slider" Minimum="0" Maximum="100" ValueChanged="Mouse_Slider_ValueChanged"/>
+                    <Slider Canvas.Left="210" Canvas.Top="101" Width="125" x:Name="CameraDistance_Slider" Minimum="0" Maximum="100" ValueChanged="CameraDistance_Slider_ValueChanged"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="136" Width="16" x:Name="InvertMouse_CheckBox"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="166" Width="16" x:Name="CameraTilt_CheckBox"/>
                     <CheckBox Content="" Canvas.Left="210" Canvas.Top="198" Width="16" x:Name="MinimapEnabled_CheckBox"/>
@@ -1011,12 +1011,12 @@
 
                 </Canvas>
                 <Canvas Height="388" Width="579" Canvas.Top="70" Canvas.Left="59" x:Name="Input_Canvas" Visibility="Hidden">
-                    <Button Content="General" Canvas.Left="10" Canvas.Top="10" Width="75"/>
-                    <Button Content="Human" Canvas.Left="90" Canvas.Top="10" Width="75"/>
-                    <Button Content="Titan" Canvas.Left="170" Canvas.Top="10" Width="75"/>
-                    <Button Content="Shifter" Canvas.Left="250" Canvas.Top="10" Width="75"/>
-                    <Button Content="Interaction" Canvas.Left="330" Canvas.Top="10" Width="75"/>
-                    <Button Content="RC Editor" Canvas.Left="410" Canvas.Top="10" Width="75"/>
+                    <Button Content="General" Canvas.Left="10" Canvas.Top="10" Width="75" Click="GeneralInput_Click"/>
+                    <Button Content="Human" Canvas.Left="90" Canvas.Top="10" Width="75" Click="HumanInput_Click"/>
+                    <Button Content="Titan" Canvas.Left="170" Canvas.Top="10" Width="75" Click="TitanInput_Click"/>
+                    <Button Content="Shifter" Canvas.Left="250" Canvas.Top="10" Width="75" Click="ShifterInput_Click"/>
+                    <Button Content="Interaction" Canvas.Left="330" Canvas.Top="10" Width="75" Click="InteractionInput_Click"/>
+                    <Button Content="RC Editor" Canvas.Left="410" Canvas.Top="10" Width="75" Click="RCEditorInput_Click"/>
                     <Canvas Visibility="Hidden" Height="388" Width="579" x:Name="General_Inputs">
                         <Label Content="Move Forward:" Canvas.Left="10" Canvas.Top="39" Width="105"/>
                         <Label Content="Move Backward:" Canvas.Left="10" Canvas.Top="60" Width="105"/>
@@ -1132,35 +1132,42 @@
                         <TextBox Canvas.Left="399" TextWrapping="Wrap" Canvas.Top="81" Width="50" Height="19" x:Name="Flare3_InputB"/>
                         <CheckBox Canvas.Left="345" Canvas.Top="110" x:Name="DoubleTapToDash_CheckBox"/>
                         <Slider Canvas.Left="345" Canvas.Top="145" Width="104" Minimum="0" Maximum="100" x:Name="ReelOutScroolSmoothing_Slider"/>
+                        <TextBox Canvas.Left="454" TextWrapping="Wrap" Canvas.Top="145" Width="90" Height="19" x:Name="ReelOutScroolSmoothing_TextBox"/>
                     </Canvas>
                     <Canvas Visibility="Hidden" Height="388" Width="579" x:Name="Titan_Inputs">
                         <Label Content="Punch attack:" Canvas.Left="10" Canvas.Top="39"/>
                         <Label Content="Slam attack:" Canvas.Left="10" Canvas.Top="60"/>
-                        <Label Content="Grab front:" Canvas.Left="10" Canvas.Top="81"/>
-                        <Label Content="Grab back:" Canvas.Left="10" Canvas.Top="102"/>
-                        <Label Content="Bite:" Canvas.Left="10" Canvas.Top="123"/>
-                        <Label Content="Cover nape:" Canvas.Left="10" Canvas.Top="144"/>
-                        <Label Content="Jump:" Canvas.Left="10" Canvas.Top="165"/>
-                        <Label Content="Sit:" Canvas.Left="10" Canvas.Top="186"/>
-                        <Label Content="Walk:" Canvas.Left="10" Canvas.Top="207"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="39" Width="50" Height="19" x:Name="PunchAtk_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="39" Width="50" Height="19" x:Name="PunchAtk_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="60" Width="50" Height="19" x:Name="SlamAtk_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="60" Width="50" Height="19" x:Name="SlamAtk_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="81" Width="50" Height="19" x:Name="GrabFront_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="81" Width="50" Height="19" x:Name="GrabFront_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="102" Width="50" Height="19" x:Name="GrabBack_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="102" Width="50" Height="19" x:Name="GrabBack_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="123" Width="50" Height="19" x:Name="Bite_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="123" Width="50" Height="19" x:Name="Bite_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="144" Width="50" Height="19" x:Name="CoverNape_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="144" Width="50" Height="19" x:Name="CoverNape_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="165" Width="50" Height="19" x:Name="TitanJump_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="165" Width="50" Height="19" x:Name="TitanJump_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="186" Width="50" Height="19" x:Name="Sit_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="186" Width="50" Height="19" x:Name="Sit_InputB"/>
-                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="207" Width="50" Height="19" x:Name="Walk_InputA"/>
-                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="207" Width="50" Height="19" x:Name="Walk_InputB"/>
+                        <Label Content="Slap attack:" Canvas.Left="10" Canvas.Top="81"/>
+                        <Label Content="Grab front:" Canvas.Left="10" Canvas.Top="102"/>
+                        <Label Content="Grab back:" Canvas.Left="10" Canvas.Top="123"/>
+                        <Label Content="Grab nape:" Canvas.Left="10" Canvas.Top="144"/>
+                        <Label Content="Bite:" Canvas.Left="10" Canvas.Top="165"/>
+                        <Label Content="Cover nape:" Canvas.Left="10" Canvas.Top="186"/>
+                        <Label Content="Jump:" Canvas.Left="10" Canvas.Top="207"/>
+                        <Label Content="Sit:" Canvas.Left="10" Canvas.Top="228"/>
+                        <Label Content="Walk:" Canvas.Left="10" Canvas.Top="249"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="39" Width="50" Height="19"  x:Name="PunchAtk_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="39" Width="50" Height="19"  x:Name="PunchAtk_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="60" Width="50" Height="19"  x:Name="SlamAtk_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="60" Width="50" Height="19"  x:Name="SlamAtk_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="81" Width="50" Height="19"  x:Name="SlapAtk_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="81" Width="50" Height="19"  x:Name="SlapAtk_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="102" Width="50" Height="19" x:Name="GrabFront_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="102" Width="50" Height="19" x:Name="GrabFront_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="123" Width="50" Height="19" x:Name="GrabBack_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="123" Width="50" Height="19" x:Name="GrabBack_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="144" Width="50" Height="19" x:Name="GrabNape_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="144" Width="50" Height="19" x:Name="GrabNape_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="165" Width="50" Height="19" x:Name="Bite_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="165" Width="50" Height="19" x:Name="Bite_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="186" Width="50" Height="19" x:Name="CoverNape_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="186" Width="50" Height="19" x:Name="CoverNape_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="207" Width="50" Height="19" x:Name="TitanJump_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="207" Width="50" Height="19" x:Name="TitanJump_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="228" Width="50" Height="19" x:Name="Sit_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="228" Width="50" Height="19" x:Name="Sit_InputB"/>
+                        <TextBox Canvas.Left="100" TextWrapping="Wrap" Canvas.Top="249" Width="50" Height="19" x:Name="Walk_InputA"/>
+                        <TextBox Canvas.Left="155" TextWrapping="Wrap" Canvas.Top="249" Width="50" Height="19" x:Name="Walk_InputB"/>
                     </Canvas>
                     <Canvas Visibility="Hidden" Height="388" Width="579" x:Name="Shifter_Inputs">
                         <Label Content="Normal attack:" Canvas.Left="10" Canvas.Top="39"/>
@@ -1268,22 +1275,16 @@
                         <TextBox Canvas.Left="405" TextWrapping="Wrap" Canvas.Top="144" Width="50" Height="18" x:Name="RCEditorCursorMode_InputB"/>
                     </Canvas>
                 </Canvas>
-                <Canvas Height="388" Width="579" Canvas.Top="70" Canvas.Left="59" x:Name="Skins_Canvas" Visibility="Hidden">
-                    <Button Content="Human" Canvas.Left="10" Canvas.Top="10" Width="75"/>
-                    <Button Content="Titan" Canvas.Left="90" Canvas.Top="10" Width="75"/>
-                    <Button Content="Shifter" Canvas.Left="170" Canvas.Top="10" Width="75"/>
-                    <Button Content="Skybox" Canvas.Left="250" Canvas.Top="10" Width="75"/>
-                    <Button Content="Forest" Canvas.Left="330" Canvas.Top="10" Width="75"/>
-                    <Button Content="City" Canvas.Left="410" Canvas.Top="10" Width="75"/>
-                    <Button Content="Custom level" Canvas.Left="490" Canvas.Top="10" Width="79"/>
-                    <Canvas Height="328" Width="579" Canvas.Top="60" Visibility="Hidden" x:Name="Human_Canvas">
-                        <Label Content="Skin Set:" Canvas.Left="10" Canvas.Top="10"/>
-                        <ComboBox Canvas.Left="60" Canvas.Top="10" Width="120"/>
-                        <Button Content="Create" Canvas.Left="13" Canvas.Top="37" Width="50"/>
-                        <Button Content="Delete" Canvas.Left="68" Canvas.Top="37" Width="50"/>
-                        <Button Content="Rename" Canvas.Left="123" Canvas.Top="37" Width="50"/>
-                        <Button Content="Copy" Canvas.Left="178" Canvas.Top="37" Width="50"/>
-                        <Canvas Height="328" Width="579">
+                <Canvas Height="388" Width="579" Canvas.Top="70" Canvas.Left="59" x:Name="Skins_Canvas" Visibility="Visible">
+                    <Button Content="Human" Canvas.Left="10" Canvas.Top="10" Width="75" x:Name="HumanSkins_Button" Click="HumanSkins_Button_Click"/>
+                    <Button Content="Titan" Canvas.Left="90" Canvas.Top="10" Width="75" x:Name="TitanSkins_Button" Click="TitanSkins_Button_Click"/>
+                    <Button Content="Shifter" Canvas.Left="170" Canvas.Top="10" Width="75" x:Name="ShifterSkins_Button" Click="ShifterSkins_Button_Click"/>
+                    <Button Content="Skybox" Canvas.Left="250" Canvas.Top="10" Width="75" x:Name="SkyboxSkins_Button" Click="SkyboxSkins_Button_Click"/>
+                    <Button Content="Forest" Canvas.Left="330" Canvas.Top="10" Width="75" x:Name="ForestSkins_Button" Click="ForestSkins_Button_Click"/>
+                    <Button Content="City" Canvas.Left="410" Canvas.Top="10" Width="75" x:Name="CitySkins_Button" Click="CitySkins_Button_Click"/>
+                    <Button Content="Custom level" Canvas.Left="490" Canvas.Top="10" Width="79" x:Name="CustomLevelSkins_Button" Click="CustomLevelSkins_Button_Click"/>
+                    <Canvas Height="328" Width="579" Canvas.Top="60" Visibility="Visible" x:Name="Human_Canvas">
+                        <Canvas Height="328" Width="579" x:Name="HumanSkins_Canvas">
                             <Label Content="Hair:" Canvas.Left="10" Canvas.Top="64" Width="86"/>
                             <Label Content="Eyes:" Canvas.Left="10" Canvas.Top="85" Width="86"/>
                             <Label Content="Glasses:" Canvas.Left="10" Canvas.Top="106" Width="86"/>
@@ -1302,33 +1303,33 @@
                             <Label Content="Horse:" Canvas.Left="271" Canvas.Top="78" Width="109"/>
                             <Label Content="Thunderspear left:" Canvas.Left="271" Canvas.Top="99" Width="109"/>
                             <Label Content="Thunderspear right:" Canvas.Left="271" Canvas.Top="120" Width="109"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="85" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="64" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="106" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="127" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="148" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="169" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="190" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="211" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="232" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="253" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="274" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="295" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="385" TextWrapping="Wrap" Canvas.Top="78" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="385" TextWrapping="Wrap" Canvas.Top="99" Width="120"/>
-                            <TextBox Height="19" Canvas.Left="385" TextWrapping="Wrap" Canvas.Top="120" Width="120"/>
-                            <CheckBox Canvas.Left="380" Canvas.Top="10"/>
-                            <CheckBox Canvas.Left="380" Canvas.Top="31"/>
-                            <CheckBox Canvas.Left="380" Canvas.Top="52"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="64" Width="120"  x:Name="HumanHairSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="85" Width="120"  x:Name="HumanEyesSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="106" Width="120" x:Name="HumanGlassesSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="127" Width="120" x:Name="HumanFaceSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="148" Width="120" x:Name="HumanSkinSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="169" Width="120" x:Name="HumanCostumeSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="190" Width="120" x:Name="HumanLogoSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="211" Width="120" x:Name="HumanGearLeftSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="232" Width="120" x:Name="HumanGearRightSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="253" Width="120" x:Name="HumanGasSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="274" Width="120" x:Name="HumanHoddieSkin"/>
+                            <TextBox Height="19" Canvas.Left="101" TextWrapping="Wrap" Canvas.Top="295" Width="120" x:Name="HumanWeaponTrailSkin"/>
+                            <TextBox Height="19" Canvas.Left="385" TextWrapping="Wrap" Canvas.Top="78" Width="120"  x:Name="HumanHorseSkin"/>
+                            <TextBox Height="19" Canvas.Left="385" TextWrapping="Wrap" Canvas.Top="99" Width="120"  x:Name="HumanThunderspearLeftSkin"/>
+                            <TextBox Height="19" Canvas.Left="385" TextWrapping="Wrap" Canvas.Top="120" Width="120" x:Name="HumanThunderspearRightSkin"/>
+                            <CheckBox Canvas.Left="380" Canvas.Top="10" x:Name="HumanSkinOn"/>
+                            <CheckBox Canvas.Left="380" Canvas.Top="31" x:Name="HumanSkinLocal"/>
+                            <CheckBox Canvas.Left="380" Canvas.Top="52" x:Name="HumanShowGasSkin"/>
                         </Canvas>
+                        <Label Content="Skin Set:" Canvas.Left="10" Canvas.Top="10"/>
+                        <ComboBox Canvas.Left="60" Canvas.Top="10" Width="120" x:Name="HumanSkinSet_ComboBox" SelectionChanged="HumanSkinSet_ComboBox_SelectionChanged"/>
+                        <Button Content="Create" Canvas.Left="13" Canvas.Top="37" Width="50" x:Name="HumanCreateSkin"/>
+                        <Button Content="Delete" Canvas.Left="68" Canvas.Top="37" Width="50" x:Name="HumanDeleteSkin"/>
+                        <Button Content="Rename" Canvas.Left="123" Canvas.Top="37" Width="50" x:Name="HumanRenameSkin"/>
+                        <Button Content="Copy" Canvas.Left="178" Canvas.Top="37" Width="50" x:Name="HumanCopySkin"/>
                     </Canvas>
                     <Canvas Height="328" Width="579" Canvas.Top="60" Visibility="Hidden" x:Name="Titan_Canvas">
-                        <Label Content="Skin Set:" Canvas.Left="10" Canvas.Top="10"/>
-                        <ComboBox Canvas.Left="60" Canvas.Top="10" Width="120"/>
-                        <Button Content="Create" Canvas.Left="13" Canvas.Top="37" Width="50"/>
-                        <Button Content="Delete" Canvas.Left="68" Canvas.Top="37" Width="50"/>
-                        <Button Content="Rename" Canvas.Left="123" Canvas.Top="37" Width="50"/>
-                        <Button Content="Copy" Canvas.Left="178" Canvas.Top="37" Width="50"/>
                         <Canvas Height="328" Width="579">
                             <Label Content="Titan skins on:" Canvas.Left="265" Canvas.Top="10" Width="104"/>
                             <Label Content="Titan skins local:" Canvas.Left="265" Canvas.Top="31" Width="104"/>
@@ -1341,6 +1342,16 @@
                             <TextBox Height="19" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="130" Width="150"/>
                             <TextBox Height="19" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="154" Width="150"/>
                             <TextBox Height="19" Canvas.Left="10" TextWrapping="Wrap" Canvas.Top="178" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="106" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="130" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="154" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="178" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="202" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="106" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="130" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="154" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="178" Width="150"/>
+                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="202" Width="150"/>
                             <ComboBox Canvas.Left="165" Canvas.Top="82" Width="95" Height="19" Foreground="WhiteSmoke">
                                 <ComboBoxItem Content="Random"/>
                                 <ComboBoxItem Content="Hair 0"/>
@@ -1409,17 +1420,13 @@
                             <CheckBox Canvas.Left="374" Canvas.Top="10"/>
                             <CheckBox Canvas.Left="374" Canvas.Top="31"/>
                             <CheckBox Canvas.Left="374" Canvas.Top="51"/>
-                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="106" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="130" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="154" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="178" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="265" TextWrapping="Wrap" Canvas.Top="202" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="106" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="130" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="154" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="178" Width="150"/>
-                            <TextBox Height="19" Canvas.Left="420" TextWrapping="Wrap" Canvas.Top="202" Width="150"/>
                         </Canvas>
+                        <Label Content="Skin Set:" Canvas.Left="10" Canvas.Top="10"/>
+                        <ComboBox Canvas.Left="60" Canvas.Top="10" Width="120"/>
+                        <Button Content="Create" Canvas.Left="13" Canvas.Top="37" Width="50"/>
+                        <Button Content="Delete" Canvas.Left="68" Canvas.Top="37" Width="50"/>
+                        <Button Content="Rename" Canvas.Left="123" Canvas.Top="37" Width="50"/>
+                        <Button Content="Copy" Canvas.Left="178" Canvas.Top="37" Width="50"/>
                     </Canvas>
                     <Canvas Height="328" Width="579" Canvas.Top="60" Visibility="Hidden" x:Name="Shifter_Canvas">
                         <Label Content="Skin Set:" Canvas.Left="10" Canvas.Top="10"/>
@@ -1559,11 +1566,11 @@
                     <Label Content="        NOTHING&#xD;&#xA;You can only access&#xD;&#xA; this settings in the&#xD;&#xA;     actual game!!" FontSize="60" Canvas.Left="30" Canvas.Top="30"/>
                 </Canvas>
                 <Canvas Height="388" Width="579" Canvas.Top="70" Canvas.Left="59" x:Name="GameSettings_Canvas" Visibility="Hidden">
-                    <Button Content="Titans" Canvas.Left="10" Canvas.Top="10" Width="75"/>
-                    <Button Content="Pvp" Canvas.Left="90" Canvas.Top="10" Width="75"/>
-                    <Button Content="Misc" Canvas.Left="170" Canvas.Top="10" Width="75"/>
-                    <Button Content="Weather" Canvas.Left="250" Canvas.Top="10" Width="75"/>
-                    <Canvas Height="388" Width="579" Visibility="Hidden">
+                    <Button Content="Titans" Canvas.Left="10" Canvas.Top="10" Width="75" x:Name="TitanGameSettings_Button" Click="TitanGameSettings_Button_Click"/>
+                    <Button Content="Pvp" Canvas.Left="90" Canvas.Top="10" Width="75" x:Name="PVPGameSettings_Button" Click="PVPGameSettings_Button_Click"/>
+                    <Button Content="Misc" Canvas.Left="170" Canvas.Top="10" Width="75" x:Name="MiscGameSettings_Button" Click="MiscGameSettings_Button_Click"/>
+                    <Button Content="Weather" Canvas.Left="250" Canvas.Top="10" Width="75" x:Name="WeatherGameSettings_Button" Click="WeatherGameSettings_Button_Click"/>
+                    <Canvas Height="388" Width="579" Visibility="Hidden" x:Name="Titan_Settings">
                         <Label Content="Custom titan number:" Canvas.Left="10" Canvas.Top="39" Width="115"/>
                         <Label Content="Titan amount:" Canvas.Left="10" Canvas.Top="60" Width="115"/>
                         <Label Content="Custom Titan spawns:" Canvas.Left="10" Canvas.Top="86" Width="115"/>
@@ -1606,7 +1613,7 @@
                         <TextBox Height="19" Canvas.Left="380" TextWrapping="Wrap" Canvas.Top="224" Width="120"/>
 
                     </Canvas>
-                    <Canvas Height="388" Width="579" Visibility="Hidden">
+                    <Canvas Height="388" Width="579" Visibility="Hidden" x:Name="PVP_Settings">
                         <Label Content="Point mode:" Canvas.Left="10" Canvas.Top="39" Width="90"/>
                         <Label Content="Point amount:" Canvas.Left="10" Canvas.Top="60" Width="90"/>
                         <Label Content="Bomb mode:" Canvas.Left="10" Canvas.Top="86" Width="90"/>
@@ -1634,7 +1641,7 @@
                         <CheckBox Canvas.Left="381" Canvas.Top="81"/>
 
                     </Canvas>
-                    <Canvas Height="388" Width="579" Visibility="Hidden">
+                    <Canvas Height="388" Width="579" Visibility="Hidden" x:Name="Misc_Settings">
                         <Label Content="Custom titans/wave:" Canvas.Left="10" Canvas.Top="39" Width="110"/>
                         <Label Content="Titan amount:" Canvas.Left="10" Canvas.Top="60" Width="110"/>
                         <Label Content="Custom max waves:" Canvas.Left="10" Canvas.Top="86" Width="110"/>
@@ -1660,7 +1667,7 @@
                         <TextBox Height="182" Canvas.Left="260" TextWrapping="Wrap" Canvas.Top="196" Width="309"/>
 
                     </Canvas>
-                    <Canvas Height="388" Width="579" Visibility="Hidden">
+                    <Canvas Height="388" Width="579" Visibility="Hidden" x:Name="Weather_Settings">
                         <Label Content="Use schedule:" Canvas.Left="10" Canvas.Top="40" Width="80"/>
                         <Label Content="Loop schedule:" Canvas.Left="10" Canvas.Top="61" Width="80"/>
                         <Label Content="Programmed schedule" Canvas.Left="10" Canvas.Top="89"/>

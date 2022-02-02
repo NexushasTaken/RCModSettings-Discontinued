@@ -18,6 +18,8 @@ namespace AoTTGSettings
         public Weather Weather { get; set; }
         public readonly List<string> Languages = new List<string>();
         public readonly List<string> Theme = new List<string>();
+
+
         private readonly string AottgPath;
         public Settings(string aottgPath)
         {
@@ -57,6 +59,7 @@ namespace AoTTGSettings
         public void LoadGeneral()
         {
             General = JsonConvert.DeserializeObject<General>(File.ReadAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\General.json")));
+        
         }
         public void LoadAbility()
         {
@@ -73,6 +76,7 @@ namespace AoTTGSettings
         public void LoadInput()
         {
             Input = JsonConvert.DeserializeObject<Input>(File.ReadAllText(Path.Combine(AottgPath, "AottgRC_Data\\UserData\\Settings\\Input.json")));
+            
         }
         public void LoadLegacyGameSettings()
         {

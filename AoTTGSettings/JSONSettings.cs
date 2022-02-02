@@ -1,9 +1,10 @@
+using System;
 using System.Collections.Generic;
 using Newtonsoft.Json;
 
 namespace AoTTGSettings
 {
-
+    internal delegate int Index();
     //Ability.json
     public class Ability
     {
@@ -41,6 +42,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -49,6 +51,42 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<HumanSkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (HumanSkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
+        public List<string> GetSkinSet()
+        {
+            return new List<string>
+            {
+                Sets[SelectedSetIndex].Hair, Sets[SelectedSetIndex].Eye, Sets[SelectedSetIndex].Glass, Sets[SelectedSetIndex].Face,
+                Sets[SelectedSetIndex].Skin, Sets[SelectedSetIndex].Costume, Sets[SelectedSetIndex].Logo,
+                Sets[SelectedSetIndex].GearL, Sets[SelectedSetIndex].GearR, Sets[SelectedSetIndex].Gas,
+                Sets[SelectedSetIndex].Hoodie, Sets[SelectedSetIndex].WeaponTrail, Sets[SelectedSetIndex].Horse, Sets[SelectedSetIndex].ThunderSpearL,
+                Sets[SelectedSetIndex].ThunderSpearR
+            };
+        }
+        public List<string> GetSkinSetByIndex(int index)
+        {
+            Index Action = () =>
+            {
+                return index == -1 ? SelectedSetIndex : index;
+            };
+            return new List<string>
+            {
+                Sets[Action()].Hair, Sets[Action()].Eye, Sets[Action()].Glass, Sets[Action()].Face,
+                Sets[Action()].Skin, Sets[Action()].Costume, Sets[Action()].Logo,
+                Sets[Action()].GearL, Sets[Action()].GearR, Sets[Action()].Gas,
+                Sets[Action()].Hoodie, Sets[Action()].WeaponTrail, Sets[Action()].Horse, Sets[Action()].ThunderSpearL,
+                Sets[Action()].ThunderSpearR
+            };
+        }
     }
     public class HumanSkinSet
     {
@@ -102,6 +140,7 @@ namespace AoTTGSettings
 
         [JsonProperty("Preset")]
         public bool Preset { get; set; }
+
     }
     public class Titan
     {
@@ -111,6 +150,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -119,6 +159,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<TitanSkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (TitanSkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
     }
     public class TitanSkinSet
     {
@@ -142,6 +192,14 @@ namespace AoTTGSettings
 
         [JsonProperty("Preset")]
         public bool Preset { get; set; }
+
+        public List<List<string>> GetSkinSet()
+        {
+            return new List<List<string>>
+            {
+                Hairs, Bodies, Eyes
+            };
+        }
     }
     public class Shifter
     {
@@ -151,6 +209,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -159,6 +218,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<ShifterSkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (ShifterSkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
     }
     public class ShifterSkinSet
     {
@@ -176,6 +245,14 @@ namespace AoTTGSettings
 
         [JsonProperty("Preset")]
         public bool Preset { get; set; }
+
+        public List<string> GetSkinSet()
+        {
+            return new List<string>
+            {
+                Eren, Annie, Colossal
+            };
+        }
     }
     public class Skybox
     {
@@ -185,6 +262,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -193,6 +271,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<SkyBoxSkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (SkyBoxSkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
     }
     public class SkyBoxSkinSet
     {
@@ -219,6 +307,14 @@ namespace AoTTGSettings
 
         [JsonProperty("Preset")]
         public bool Preset { get; set; }
+
+        public List<string> GetSkinSet()
+        {
+            return new List<string>
+            {
+                Front, Back, Left, Right, Up, Down
+            };
+        }
     }
     public class Forest
     {
@@ -228,6 +324,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -236,6 +333,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<ForestSkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (ForestSkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
     }
     public class ForestSkinSet
     {
@@ -256,6 +363,14 @@ namespace AoTTGSettings
 
         [JsonProperty("Preset")]
         public bool Preset { get; set; }
+
+        public List<List<string>> GetSkinSet()
+        {
+            return new List<List<string>>
+            {
+                TreeTrunks, TreeLeafs
+            };
+        }
     }
     public class City
     {
@@ -265,6 +380,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -273,6 +389,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<CitySkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (CitySkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
     }
     public class CitySkinSet
     {
@@ -302,6 +428,7 @@ namespace AoTTGSettings
         [JsonProperty("SkinsEnabled")]
         public bool SkinsEnabled { get; set; }
 
+        [Obsolete("Don't use this", true)]
         [JsonProperty("SkinSets")]
         public List<object> SkinSets { get; set; }
 
@@ -310,6 +437,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Sets")]
         public List<CustomLevelSkinSet> Sets { get; set; }
+
+        public List<string> GetSkinNameSet()
+        {
+            List<string> l = new List<string>();
+            foreach (CustomLevelSkinSet h in Sets)
+            {
+                l.Add(h.Name);
+            }
+            return l;
+        }
     }
     public class CustomLevelSkinSet
     {
@@ -485,6 +622,17 @@ namespace AoTTGSettings
 
         [JsonProperty("SpectateNextPlayer")]
         public List<string> SpectateNextPlayer { get; set; }
+
+        public List<List<string>> GetInputs()
+        {
+            return new List<List<string>>
+            {
+                Forward, Back, Left, Right, Pause, Restart, Chat,
+                ToggleFullscreen, ChangeCamera,HideUI, MinimapReset,
+                MinimapToggle, MinimapMaximize, JoinGame, SpectateToggleLive,
+                SpectateToggleFreeCamera, SpectatePreviousPlayer, SpectateNextPlayer
+            };
+        }
     }
     public class HumanInput
     {
@@ -547,6 +695,17 @@ namespace AoTTGSettings
 
         [JsonProperty("ReelOutScrollSmoothing")]
         public float ReelOutScrollSmoothing { get; set; }
+
+        public List<List<string>> GetInputs()
+        {
+            return new List<List<string>>
+            {
+                AttackDefault, AttackSpecial, HookLeft, HookRight,
+                HookBoth, Dash, ReelIn, ReelOut, Dodge, FocusTitan,
+                Jump, Reload, HorseMount, HorseWalk, HorseJump,
+                Flare1, Flare2, Flare3
+            };
+        }
     }
     public class TitanInput
     {
@@ -582,6 +741,16 @@ namespace AoTTGSettings
 
         [JsonProperty("Walk")]
         public List<string> Walk { get; set; }
+
+        public List<List<string>> GetInputs()
+        {
+            return new List<List<string>>
+            {
+                AttackPunch, AttackSlam, AttackSlap, AttackGrabFront,
+                AttackGrabBack, AttackGrabNape, AttackBite, CoverNape,
+                Jump, Sit, Walk
+            };
+        }
     }
     public class ShifterInput
     {
@@ -605,6 +774,15 @@ namespace AoTTGSettings
 
         [JsonProperty("Roar")]
         public List<string> Roar { get; set; }
+
+        public List<List<string>> GetInputs()
+        {
+            return new List<List<string>>
+            {
+                AttackDefault, AttackSpecial, CoverNape,
+                Jump, Sit, Walk, Roar
+            };
+        }
     }
     public class Interaction
     {
@@ -646,6 +824,16 @@ namespace AoTTGSettings
 
         [JsonProperty("QuickSelect8")]
         public List<string> QuickSelect8 { get; set; }
+
+        public List<List<string>> GetInputs()
+        {
+            return new List<List<string>>
+            {
+                Interact, CannonSlow, CannonFire, EmoteMenu, MenuNext, QuickSelect1,
+                QuickSelect2, QuickSelect3, QuickSelect4, QuickSelect5, QuickSelect6,
+                QuickSelect7, QuickSelect8
+            };
+        }
     }
     public class RCEditor
     {
@@ -687,6 +875,15 @@ namespace AoTTGSettings
 
         [JsonProperty("Cursor")]
         public List<string> Cursor { get; set; }
+
+        public List<List<string>> GetInputs()
+        {
+            return new List<List<string>>
+            {
+                Up, Down, Slow, Fast, RotateRight, RotateLeft, RotateCCW,
+                RotateCW, RotateBack,RotateForward, Place,Delete, Cursor
+            };
+        }
     }
     public class Input
     {
